@@ -54,6 +54,49 @@
             margin: 10px;
             padding: 10px;
             width: 30%;
+            cursor: pointer;
+        }
+
+        #details-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #details-modal .modal-content {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        #details-modal .modal-content h3 {
+            color: #f0a500;
+        }
+
+        #details-modal .modal-content p {
+            margin: 10px 0;
+        }
+
+        #details-modal .close-btn {
+            background-color: #f0a500;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #details-modal .close-btn:hover {
+            background-color: #c07d00;
         }
 
         form {
@@ -141,6 +184,14 @@
         <p>&copy; 2024 Land Broker. All rights reserved.</p>
     </footer>
 
+    <div id="details-modal">
+        <div class="modal-content">
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const listings = [
@@ -150,10 +201,11 @@
             ];
 
             const listingContainer = document.getElementById('listing-container');
-            listings.forEach(listing => {
+            listings.forEach((listing, index) => {
                 const listingDiv = document.createElement('div');
                 listingDiv.classList.add('listing');
                 listingDiv.innerHTML = `<h3>${listing.title}</h3><p>${listing.description}</p>`;
+                listingDiv.addEventListener('click', () => openModal(listing));
                 listingContainer.appendChild(listingDiv);
             });
 
@@ -164,6 +216,16 @@
                 contactForm.reset();
             });
         });
+
+        function openModal(listing) {
+            document.getElementById('modal-title').innerText = listing.title;
+            document.getElementById('modal-description').innerText = listing.description;
+            document.getElementById('details-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('details-modal').style.display = 'none';
+        }
     </script>
 </body>
 </html>
